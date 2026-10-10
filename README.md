@@ -11,7 +11,7 @@ Pocket Chat is a browser-based chat app with an internet-connected Cloudflare Wo
 ## Deploy with Cloudflare Pages
 
 1. Connect this repository to a Cloudflare Pages project.
-2. Set the build command to none and the output directory to the repository root (`.`).
+2. Set the build command to none and the output directory to the repository root (`/`).
 3. In the Pages project settings, add a Workers AI binding named `AI`.
 4. Deploy. The `functions/api/chat.js` function handles requests to `/api/chat`.
 5. Open the deployed HTTPS site. On iPhone, use Safari's **Share → Add to Home Screen** if desired.
