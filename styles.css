@@ -40,6 +40,15 @@ button:focus-visible,textarea:focus-visible { outline:2px solid #97b6ff; outline
 .composer textarea::placeholder { color:#93a6c5; }
 .send-button { min-width:36px; width:36px; height:36px; border:0; border-radius:11px; background:#84a6ff; color:#071529; font-size:24px; line-height:1; font-weight:700; }
 .send-button:disabled { opacity:.35; cursor:default; }
+.send-button.stop { background:#ff8d99; color:#2b070d; font-size:15px; }
+.icon-button { min-width:36px; width:36px; height:36px; border:1px solid #3c4962; border-radius:11px; background:#1b2840; color:#ecf0ff; font-size:17px; line-height:1; }
+.icon-button:hover { background:#263959; }
+.mic-button.listening { background:#5b2a3a; border-color:#ff8d99; animation:pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { box-shadow:0 0 0 0 #ff8d9944; } 50% { box-shadow:0 0 0 5px #ff8d9911; } }
+.bubble-footer { display:flex; align-items:center; gap:10px; padding:0 5px; }
+.timestamp { color:#8198b7; font-size:10px; }
+.copy-button { border:0; background:transparent; color:#8198b7; font-size:10px; padding:2px 4px; border-radius:6px; }
+.copy-button:hover { color:#cfe0ff; background:#1b2840; }
 .footnote { margin:10px auto 0; text-align:center; font-size:10px; color:#8799b8; line-height:1.4; }
 .sr-only { position:absolute; height:1px; width:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
 @media(min-width:720px) {.conversation { padding-top:40px; }.welcome { padding-bottom:70px; }.bubble { font-size:15px; }}
