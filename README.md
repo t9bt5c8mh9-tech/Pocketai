@@ -1,0 +1,2 @@
+# Pocketai
+Un AI tool
