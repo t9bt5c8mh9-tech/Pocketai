@@ -6,7 +6,7 @@ This is a small original chat app, **not a copy of DadGPT**. It contains readabl
 
 - `index.html` — app screen
 - `styles.css` — design, including iPhone sizing
-- `app.js` — messaging UI, keeps your conversation in this tab only
+- `app.js` — messaging UI and plain-text file attachments
 - `ai-worker.js` — downloads and runs a small chat AI in the browser
 - `manifest.webmanifest`, `icon.png`, `sw.js` — make it Home Screen-friendly
 
@@ -28,7 +28,7 @@ You cannot just run the ZIP as a native iOS app. Browsers can restrict JavaScrip
 
 - No user login or password needed.
 - Never asks for Apple ID, iPhone configuration profiles, an `.ipa`, special permissions or antivirus deactivation.
-- Chat history stays in temporary browser memory, and is **not** uploaded by this app. Third-party providers still receive requests for the library and model downloads (such as IP information).
+- Chat history stays in temporary browser memory. Messages and attached text are sent to the Cloudflare Workers AI endpoint configured for this app so it can generate responses. Attachments are limited to TXT, MD, CSV, JSON, and LOG files up to 256 KB; the first 5,000 characters are included. Avoid uploading sensitive information. Cloudflare processes those requests under its own terms.
 - Source of script: `https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1`
 - Model source: `https://huggingface.co/onnx-community/SmolLM2-135M-Instruct-ONNX-MHA`
 - Inspect those dependencies and app code before use. Models can be imperfect or give unsafe/inaccurate answers; don't rely on them for medical, legal or emergency advice.
