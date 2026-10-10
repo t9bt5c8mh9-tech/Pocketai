@@ -1,4 +1,4 @@
-name: NodeJS with Webpack
+name: Static Site CI
 
 on:
   push:
@@ -22,7 +22,20 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Build
+    # This project is a dependency-free static site (plain HTML/CSS/JS, no
+    # package.json or bundler), so there is nothing to install or build.
+    # Instead, validate the deployable files directly.
+    - name: Verify required site files exist
       run: |
-        npm install
-        npx webpack
+        for file in index.html styles.css app.js chat.js ai-worker.js sw.js manifest.webmanifest icon.png; do
+          if [ ! -f "$file" ]; then
+            echo "Missing required file: $file"
+            exit 1
+          fi
+        done
+
+    - name: Syntax-check JavaScript files
+      run: |
+        for file in app.js chat.js ai-worker.js sw.js; do
+          node --check "$file"
+        done
