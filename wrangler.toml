@@ -1,0 +1,8 @@
+name = "pocketai"
+pages_build_output_dir = "."
+
+# Cloudflare Workers AI binding used by functions/api/chat.js (env.AI).
+# Committing this file lets the Cloudflare GitHub integration deploy the
+# project with the AI binding already active — no dashboard step needed.
+[ai]
+binding = "AI"
