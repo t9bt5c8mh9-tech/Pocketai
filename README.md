@@ -6,21 +6,23 @@ This is a small original chat app, **not a copy of DadGPT**. It contains readabl
 
 - `index.html` — app screen
 - `styles.css` — design, including iPhone sizing
-- `app.js` — messaging UI, keeps your conversation in this tab only
-- `ai-worker.js` — downloads and runs a small chat AI in the browser
+- `app.js` — messaging UI, talks to the cloud AI endpoint, keeps your conversation in this tab only
+- `functions/api/chat.js` — Cloudflare Pages Function that answers `/api/chat` using Workers AI
+- `wrangler.toml` — declares the Workers AI binding (`AI`) so deployments include it automatically
+- `ai-worker.js` — legacy: downloads and runs a small chat AI in the browser (not used by `app.js` as shipped)
 - `manifest.webmanifest`, `icon.png`, `sw.js` — make it Home Screen-friendly
 
-**Important:** This is real AI text generation, not a fake script, but the model is extremely small and its responses may be bad, inaccurate or very slow. It is *not* an installable `.ipa` file. It has **not been tested on a real iPhone**. Safari/iPhone hardware can refuse to load the model because of memory limits. The first download uses roughly 180 MB for model weights plus other files. Use Wi-Fi.
+**Important:** The app expects the Cloudflare backend described below. It is *not* an installable `.ipa` file. It has **not been tested on a real iPhone**.
 
-## Put it on an iPhone using GitHub Pages
+## Put it on an iPhone using Cloudflare Pages
 
-1. Unzip the Pocket Chat ZIP in the Files app, or on a computer.
-2. Sign in to GitHub at https://github.com and make a new **public** repository named `pocket-chat` (or a different name). Do not upload passwords, personal data or secret API keys.
-3. Upload all seven project files **directly into the root** of that repository, not the containing folder. The required entry file is `index.html`.
-4. Go to your repository **Settings → Pages**. Under **Build and deployment**, set **Deploy from a branch**, branch **main**, folder **/(root)**, then save.
-5. When GitHub Pages publishes, open `https://YOUR-GITHUB-USERNAME.github.io/pocket-chat/` in Safari. (Change the username and repo name.)
-6. In Safari, tap **Share → Add to Home Screen** and confirm.
-7. Open Pocket Chat and tap **Load AI model** while on Wi-Fi. The browser will fetch code from jsDelivr and the model from Hugging Face.
+GitHub Pages cannot run `functions/api/chat.js`; deploy to **Cloudflare Pages** instead.
+
+1. Sign in to https://dash.cloudflare.com → **Workers & Pages** → **Create** → **Pages** tab → **Connect to Git** and select this repository.
+2. Set production branch **main**, framework preset **None**, build command **empty**, output directory **/** (root), then **Save and Deploy**.
+3. The Workers AI binding named `AI` is declared in `wrangler.toml`, so deployments include it. If you deploy a different way (e.g. direct upload without wrangler.toml), add it manually instead: project **Settings → Bindings → Add → Workers AI**, variable name exactly `AI`, then redeploy.
+4. Open the project's `*.pages.dev` URL — the status line should say **Cloud AI ready**. You can also visit `/api/chat` directly to see the API-online message.
+5. In Safari on the iPhone, open that URL, tap **Share → Add to Home Screen** and confirm.
 
 You cannot just run the ZIP as a native iOS app. Browsers can restrict JavaScript modules, caching and loading local files, so hosting it as an HTTPS site is recommended.
 
