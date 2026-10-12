@@ -22,7 +22,20 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Build
+    - name: Validate static PWA
       run: |
-        npm install
-        npx webpack
+        set -euo pipefail
+        # This project is a dependency-free static app: plain HTML/CSS/JS with no
+        # package.json and no bundler, so there is nothing to npm-install or build.
+        # Instead, verify the required files exist and the JavaScript parses.
+        for f in index.html styles.css app.js ai-worker.js sw.js manifest.webmanifest icon.png functions/api/chat.js; do
+          test -f "$f" || { echo "Missing required file: $f"; exit 1; }
+        done
+        # app.js, ai-worker.js and chat.js are ES modules; sw.js is a classic script.
+        for f in app.js ai-worker.js functions/api/chat.js; do
+          cp "$f" "$f.check.mjs"
+          node --check "$f.check.mjs"
+          rm -f "$f.check.mjs"
+        done
+        node --check sw.js
+        echo "Static PWA validation passed."
